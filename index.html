@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Para Amaia 🎂</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,500;1,9..144,600&family=Manrope:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --night:#0B3654;
+    --lagoon:#1E8FA6;
+    --sand:#F3E7D1;
+    --sand-2:#EADEC6;
+    --clay:#E2603F;
+    --gold:#D9A441;
+    --ink:#1C2B33;
+    --ink-soft:#4A5A63;
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--night);
+    background-image:
+      radial-gradient(ellipse 600px 300px at 50% -10%, rgba(217,164,65,0.16), transparent 60%);
+    min-height:100vh;
+    font-family:'Manrope', sans-serif;
+    color:var(--sand);
+    display:flex;
+    align-items:flex-start;
+    justify-content:center;
+    overflow-x:hidden;
+  }
+
+  .stage{
+    width:100%;
+    max-width:440px;
+    min-height:100vh;
+    padding:32px 20px 56px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    position:relative;
+  }
+
+  .eyebrow{
+    font-family:'Space Mono', monospace;
+    font-size:11px;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    color:var(--gold);
+    margin-bottom:10px;
+    text-align:center;
+  }
+
+  h1, h2{
+    font-family:'Fraunces', serif;
+    margin:0;
+    line-height:1.08;
+  }
+
+  /* ---------- INTRO ---------- */
+  #screen-intro{
+    width:100%;
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    gap:22px;
+    animation:fadeUp .7s ease both;
+  }
+  #screen-intro h1{
+    font-size:clamp(30px,8vw,40px);
+    font-weight:600;
+    font-style:italic;
+  }
+  #screen-intro p{
+    color:var(--sand-2);
+    font-size:15px;
+    line-height:1.55;
+    max-width:340px;
+  }
+  .stamp-deco{
+    width:64px;height:64px;
+    border:1.5px dashed var(--gold);
+    border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    color:var(--gold);
+    font-family:'Space Mono',monospace;
+    font-size:11px;
+    letter-spacing:.05em;
+    transform:rotate(-8deg);
+    text-align:center;
+  }
+
+  button{
+    font-family:'Manrope', sans-serif;
+    border:none;
+    cursor:pointer;
+  }
+
+  .btn-primary{
+    background:var(--clay);
+    color:var(--sand);
+    font-weight:700;
+    font-size:15px;
+    padding:15px 30px;
+    border-radius:100px;
+    box-shadow:0 14px 28px -10px rgba(226,96,63,0.55);
+    transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .btn-primary:active{ transform:scale(.96); }
+
+  .btn-ghost{
+    background:transparent;
+    border:1.5px solid rgba(243,231,209,0.3);
+    color:var(--sand-2);
+    font-size:12.5px;
+    font-weight:600;
+    padding:10px 22px;
+    border-radius:100px;
+    transition:border-color .2s ease, color .2s ease;
+  }
+  .btn-ghost:active{ transform:scale(.96); }
+
+  .intro-note{
+    color:rgba(243,231,209,0.55);
+    font-size:11.5px;
+    line-height:1.5;
+    max-width:280px;
+    margin-top:2px;
+  }
+
+  /* ---------- PROGRESS ---------- */
+  #progress{
+    display:flex;
+    gap:8px;
+    margin-bottom:26px;
+  }
+  .dot{
+    width:9px;height:9px;border-radius:50%;
+    background:rgba(243,231,209,0.22);
+    transition:background .3s ease, transform .3s ease;
+  }
+  .dot.done{ background:var(--gold); }
+  .dot.current{ background:var(--clay); transform:scale(1.35); }
+
+  /* ---------- TICKET ---------- */
+  .ticket{
+    position:relative;
+    width:100%;
+    background:var(--sand);
+    border-radius:20px;
+    display:flex;
+    overflow:hidden;
+    box-shadow:0 24px 50px -14px rgba(5,28,46,0.55);
+  }
+  .ticket__stub{
+    width:74px;
+    min-width:74px;
+    background:var(--clay);
+    color:var(--sand);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:6px;
+    position:relative;
+    padding:18px 0;
+  }
+  .ticket__stub::before,
+  .ticket__stub::after{
+    content:"";
+    position:absolute;
+    width:18px;height:18px;
+    border-radius:50%;
+    background:var(--night);
+    left:50%;
+    transform:translateX(-50%);
+  }
+  .ticket__stub::before{ top:-9px; }
+  .ticket__stub::after{ bottom:-9px; }
+  .ticket__stub .pista-no{
+    font-family:'Fraunces', serif;
+    font-size:26px;
+    font-weight:700;
+  }
+  .ticket__stub .pista-label{
+    font-family:'Space Mono', monospace;
+    font-size:9px;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+    writing-mode:vertical-rl;
+    transform:rotate(180deg);
+  }
+  .ticket__perf{
+    width:0;
+    border-left:1.5px dashed rgba(28,43,51,0.25);
+  }
+  .ticket__main{
+    flex:1;
+    padding:22px 18px 22px 16px;
+    color:var(--ink);
+  }
+
+  /* ---------- QUESTION ---------- */
+  #screen-question{ width:100%; display:none; }
+  .question-card{ animation:fadeUp .45s ease both; }
+  .question-text{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:19px;
+    color:var(--ink);
+    margin:0 0 16px;
+    line-height:1.28;
+  }
+  .options{
+    display:flex;
+    flex-direction:column;
+    gap:9px;
+  }
+  .opt{
+    background:#fff;
+    border:1.5px solid rgba(28,43,51,0.12);
+    border-radius:12px;
+    padding:12px 14px;
+    font-size:14.5px;
+    font-weight:600;
+    color:var(--ink);
+    text-align:left;
+    transition:transform .12s ease, border-color .2s ease, background .2s ease, opacity .2s ease;
+  }
+  .opt:active{ transform:scale(.985); }
+  .opt.selected{
+    background:rgba(217,164,65,0.16);
+    border-color:var(--gold);
+  }
+  .opt[disabled]{ pointer-events:none; }
+  .opt[disabled]:not(.selected){ opacity:.45; }
+
+  .reaction{
+    margin-top:14px;
+    font-family:'Space Mono', monospace;
+    font-size:12.5px;
+    color:var(--ink-soft);
+    min-height:16px;
+    opacity:0;
+    transition:opacity .3s ease;
+  }
+  .reaction.show{ opacity:1; }
+
+  /* ---------- WAIT SCREEN ---------- */
+  #screen-wait{
+    width:100%;
+    flex:1;
+    display:none;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    gap:16px;
+    animation:fadeUp .5s ease both;
+  }
+  #screen-wait h1{
+    font-size:clamp(24px,7vw,30px);
+    font-weight:600;
+    font-style:italic;
+  }
+  .wait-ring{
+    width:172px;height:172px;
+    border-radius:50%;
+    border:2px solid var(--gold);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    margin:6px 0;
+  }
+  .wait-time{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:32px;
+    letter-spacing:.01em;
+    font-variant-numeric:tabular-nums;
+  }
+  .wait-time-label{
+    font-family:'Space Mono', monospace;
+    font-size:9.5px;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+    color:var(--gold);
+    margin-top:6px;
+  }
+  #screen-wait .sub{
+    color:var(--sand-2);
+    font-size:14px;
+    line-height:1.55;
+    max-width:300px;
+  }
+
+  /* ---------- FINAL MESSAGE ---------- */
+  #screen-finalmessage{
+    width:100%;
+    flex:1;
+    display:none;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    gap:22px;
+    animation:fadeUp .6s ease both;
+  }
+  #screen-finalmessage h1{
+    font-size:clamp(26px,7.5vw,32px);
+    font-weight:600;
+    font-style:italic;
+  }
+
+  /* ---------- REVEAL ---------- */
+  #screen-reveal{
+    width:100%;
+    display:none;
+    flex-direction:column;
+    align-items:center;
+    text-align:center;
+    gap:26px;
+    animation:fadeUp .6s ease both;
+  }
+  .plane-icon{ width:34px; height:34px; color:var(--gold); }
+  #screen-reveal h1{
+    font-size:clamp(32px,9vw,42px);
+    font-weight:600;
+    font-style:italic;
+    color:var(--sand);
+  }
+  #screen-reveal .sub{
+    color:var(--sand-2);
+    font-size:14.5px;
+    max-width:320px;
+    line-height:1.55;
+    margin-top:-8px;
+  }
+
+  .legs{
+    width:100%;
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+  }
+  .leg-label{
+    font-family:'Space Mono', monospace;
+    font-size:10.5px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--gold);
+    margin-bottom:8px;
+    text-align:left;
+  }
+  .route{
+    font-family:'Fraunces', serif;
+    font-weight:700;
+    font-size:23px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .route svg{ width:16px; height:16px; flex-shrink:0; color:var(--clay); }
+  .route-cities{
+    font-size:12.5px;
+    color:var(--ink-soft);
+    margin-top:2px;
+  }
+  .leg-meta{
+    margin-top:12px;
+    padding-top:12px;
+    border-top:1px dashed rgba(28,43,51,0.18);
+    font-size:12px;
+    color:var(--ink-soft);
+    display:flex;
+    flex-direction:column;
+    gap:4px;
+  }
+  .leg-meta b{ color:var(--ink); }
+  .code{
+    font-family:'Space Mono', monospace;
+    letter-spacing:.06em;
+  }
+
+  .note-card{
+    width:100%;
+    background:rgba(243,231,209,0.08);
+    border:1px solid rgba(243,231,209,0.18);
+    border-radius:16px;
+    padding:24px 24px;
+  }
+  .note-card p{
+    font-family:'Fraunces', serif;
+    font-style:italic;
+    font-size:16px;
+    line-height:1.6;
+    margin:0;
+    color:var(--sand);
+    text-align:left;
+  }
+  .note-sign{
+    margin-top:14px;
+    font-family:'Manrope';
+    font-style:normal;
+    font-weight:700;
+    font-size:12.5px;
+    color:var(--gold);
+    text-align:left;
+  }
+
+  .note-card.small p{ font-size:14.5px; text-align:center; }
+  .note-card.small .note-sign{ text-align:center; }
+
+  /* ---------- CONFETTI ---------- */
+  .confetto{
+    position:fixed;
+    top:-5vh;
+    width:7px;height:13px;
+    opacity:.95;
+    pointer-events:none;
+    z-index:60;
+    animation:fall linear forwards;
+  }
+
+  @keyframes fall{
+    to{ transform:translateY(112vh) rotate(var(--rot)); opacity:.85; }
+  }
+  @keyframes fadeUp{
+    from{ opacity:0; transform:translateY(14px); }
+    to{ opacity:1; transform:translateY(0); }
+  }
+
+  .reset-link{
+    position:fixed;
+    bottom:10px;
+    right:10px;
+    font-size:11px;
+    color:rgba(243,231,209,0.4);
+    font-family:'Space Mono',monospace;
+    background:rgba(0,0,0,0.15);
+    border:none;
+    border-radius:8px;
+    padding:8px 12px;
+    z-index:80;
+    letter-spacing:.06em;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation-duration:.01ms !important; animation-iteration-count:1 !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="stage">
+
+  <!-- INTRO -->
+  <section id="screen-intro">
+    <div class="eyebrow">Feliz cumpleaños, Amaia</div>
+    <div class="stamp-deco">5<br>preguntas</div>
+    <h1>Antes de tu<br>regalo, un trato</h1>
+    <p>Cinco preguntas sobre nosotros. Cada respuesta desbloquea la siguiente — eso sí, entre una y otra tendrás que esperar un poco. Te avisaré por email cuando tengas pregunta nueva.</p>
+    <button class="btn-primary" onclick="startGame()">Empezar</button>
+  </section>
+
+  <!-- QUESTION -->
+  <section id="screen-question">
+    <div id="progress"></div>
+    <div class="ticket question-card" id="question-card">
+      <div class="ticket__stub">
+        <div class="pista-label">Pregunta</div>
+        <div class="pista-no" id="pista-no">1</div>
+      </div>
+      <div class="ticket__perf"></div>
+      <div class="ticket__main">
+        <p class="question-text" id="question-text"></p>
+        <div class="options" id="options"></div>
+        <div class="reaction" id="reaction"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WAIT -->
+  <section id="screen-wait">
+    <div class="eyebrow" id="wait-eyebrow">Sala de embarque</div>
+    <h1>Esperando<br>la próxima pista</h1>
+    <div class="wait-ring">
+      <div class="wait-time" id="wait-time">01:30:00</div>
+      <div class="wait-time-label">restante</div>
+    </div>
+    <p class="sub">Cierra la app tranquila, no hace falta que esperes aquí. Te aviso por email en cuanto esté lista 💌</p>
+    <button class="btn-ghost" onclick="tickWait(true)">Comprobar ahora</button>
+  </section>
+
+  <!-- FINAL MESSAGE -->
+  <section id="screen-finalmessage">
+    <div class="eyebrow">Última pista</div>
+    <h1>¿Qué planes<br>tienes para agosto?</h1>
+    <div class="note-card">
+      <p>Ya va siendo hora de que te vayas de viaje sin tener que planificar, coger vuelos, coche de alquiler o apartamento. Así que siéntete como la reina que eres, porque Joni lo va a hacer todo en este regalo — tú solo tendrás que ir y disfrutar.</p>
+      <p style="margin-top:14px;">Y no solo para este viaje: Joni se esforzará en ser más puntual, planificarse más y corregir las cosas que te gustan menos.</p>
+      <div class="note-sign">Te quiero, guapa.</div>
+    </div>
+    <button class="btn-primary" onclick="goReveal()">Descubrir mi regalo</button>
+  </section>
+
+  <!-- REVEAL -->
+  <section id="screen-reveal">
+    <svg class="plane-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
+      <path d="M3 13l8-2 4-8 2 1-2 7 6 1v2l-6 1 2 7-2 1-4-8-8-2z"/>
+    </svg>
+    <div class="eyebrow">Destino confirmado</div>
+    <h1>Nos vamos<br>a Cerdeña</h1>
+    <p class="sub">Tu regalo de cumpleaños: una semana en el Mediterráneo, solo nosotros dos.</p>
+
+    <div class="legs">
+      <div class="ticket">
+        <div class="ticket__stub">
+          <div class="pista-label">Ida</div>
+          <div class="pista-no" style="font-size:15px;">15<br>AGO</div>
+        </div>
+        <div class="ticket__perf"></div>
+        <div class="ticket__main">
+          <div class="leg-label">Vuelo de ida</div>
+          <div class="route">
+            OPO
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14m-6-6l6 6-6 6"/></svg>
+            OLB
+          </div>
+          <div class="route-cities">Oporto → Olbia</div>
+          <div class="leg-meta">
+            <span><b>Sáb, 15 ago 2026</b> · 16:50 – 23:20</span>
+            <span>Vueling VY8479 · duración 5h 30m</span>
+            <span>Localizador <span class="code">WLE1UJ</span></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="ticket">
+        <div class="ticket__stub">
+          <div class="pista-label">Vuelta</div>
+          <div class="pista-no" style="font-size:15px;">22<br>AGO</div>
+        </div>
+        <div class="ticket__perf"></div>
+        <div class="ticket__main">
+          <div class="leg-label">Vuelo de vuelta</div>
+          <div class="route">
+            OLB
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14m-6-6l6 6-6 6"/></svg>
+            SCQ
+          </div>
+          <div class="route-cities">Olbia → Santiago de Compostela (vía Ginebra)</div>
+          <div class="leg-meta">
+            <span><b>Sáb, 22 ago 2026</b> · easyJet</span>
+            <span>Duración total con conexión: 7h 30m</span>
+            <span>Reserva <span class="code">XJNTQBRB</span></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="note-card small">
+      <p>ZORIONAK AMAIUS!</p>
+      <div class="note-sign">— Jonatan</div>
+    </div>
+  </section>
+
+</div>
+
+<button class="reset-link" onclick="confirmReset()">reiniciar</button>
+
+<script>
+const STORAGE_KEY = 'amaia_regalo_state_v1';
+const DEMO = new URLSearchParams(location.search).get('demo') === '1';
+const WAIT_MS = DEMO ? 10 * 1000 : 90 * 60 * 1000; // 1h30 real, 10s en modo demo (?demo=1)
+
+const QUESTIONS = [
+  {
+    question: "¿Qué es lo que más te gusta hacer con Joni?",
+    options: [
+      { text: "Pedir comida a domicilio", reactions: ["Plan perfecto de sofá 🍕"] },
+      { text: "Deporte", reactions: ["Eso también lo cubrimos en agosto 💪"] },
+      { text: "Dormirte en el sofá", reactions: ["Un clásico tuyo 😴"] },
+      { text: "Viajar", reactions: ["Buena elección... 👀✈️"] }
+    ]
+  },
+  {
+    question: "Si pudieses cambiar algo de Joni, ¿qué sería?",
+    options: [
+      { text: "Que fluya tanto", reactions: ["Touché 😅"] },
+      { text: "Su puntualidad", reactions: ["Tomo nota (otra vez) ⏰"] },
+      { text: "Su falta de planificación", reactions: ["Esta vez no, te lo prometo 📋"] }
+    ]
+  },
+  {
+    question: '¿Crees que tu regalo estará en "la famosa lista"?',
+    options: [
+      { text: "Sí", reactions: ["Veremos... 👀"] },
+      { text: "No", reactions: ["Eso díselo a la lista 😏"] }
+    ]
+  },
+  {
+    question: "¿Cuál es tu tipo de viaje favorito?",
+    options: [
+      { text: "Visitar museos", reactions: ["Apuntado para otra vez 🖼️"] },
+      { text: "Sol y playa", reactions: ["Mmm, interesante elección... 🏖️"] },
+      { text: "Rutas por la montaña", reactions: ["Para otra ocasión 🥾"] }
+    ]
+  },
+  {
+    question: "¿Cuál fue tu viaje favorito con Joni?",
+    options: [
+      { text: "Roma", reactions: ["Gran viaje, sí señor 🍝"] },
+      { text: "Lanzarote", reactions: ["Volcánico, como él 🌋"] },
+      { text: "Portonovo", reactions: ["Un clásico de toda la vida ⛵"] },
+      { text: "Fuerteventura", reactions: ["Inolvidable 🏄"] }
+    ]
+  }
+];
+
+function loadState(){
+  try{
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if(raw) return JSON.parse(raw);
+  }catch(e){}
+  return { stage:'intro', qIndex:0 };
+}
+function saveState(s){
+  try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(s)); }catch(e){}
+}
+
+let waitTimer = null;
+
+function hideAll(){
+  ['screen-intro','screen-question','screen-wait','screen-finalmessage','screen-reveal'].forEach(id=>{
+    document.getElementById(id).style.display = 'none';
+  });
+}
+
+function render(){
+  const s = loadState();
+  hideAll();
+  if(waitTimer){ clearInterval(waitTimer); waitTimer = null; }
+
+  if(s.stage === 'intro'){
+    document.getElementById('screen-intro').style.display = 'flex';
+  } else if(s.stage === 'question'){
+    document.getElementById('screen-question').style.display = 'block';
+    renderQuestion(s.qIndex);
+  } else if(s.stage === 'wait'){
+    document.getElementById('screen-wait').style.display = 'flex';
+    renderWaitScreen(s);
+    waitTimer = setInterval(()=>tickWait(false), 1000);
+  } else if(s.stage === 'finalmessage'){
+    document.getElementById('screen-finalmessage').style.display = 'flex';
+  } else if(s.stage === 'reveal'){
+    document.getElementById('screen-reveal').style.display = 'flex';
+  }
+}
+
+function startGame(){
+  saveState({ stage:'question', qIndex:0 });
+  render();
+}
+
+function buildProgress(activeIndex, allDone){
+  const wrap = document.getElementById('progress');
+  wrap.innerHTML = '';
+  QUESTIONS.forEach((_,i)=>{
+    const d = document.createElement('div');
+    d.className = 'dot' + (allDone || i < activeIndex ? ' done' : (i === activeIndex ? ' current' : ''));
+    wrap.appendChild(d);
+  });
+}
+
+function shuffleOptions(q){
+  const opts = q.options.map(o=>({...o}));
+  for(let i=opts.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [opts[i],opts[j]] = [opts[j],opts[i]];
+  }
+  return opts;
+}
+
+function renderQuestion(idx){
+  buildProgress(idx, false);
+  const q = QUESTIONS[idx];
+  document.getElementById('pista-no').textContent = idx + 1;
+  document.getElementById('question-text').textContent = q.question;
+
+  const optsWrap = document.getElementById('options');
+  optsWrap.innerHTML = '';
+  const reaction = document.getElementById('reaction');
+  reaction.textContent = '';
+  reaction.classList.remove('show');
+
+  const shuffled = shuffleOptions(q);
+  shuffled.forEach(opt=>{
+    const btn = document.createElement('button');
+    btn.className = 'opt';
+    btn.textContent = opt.text;
+    btn.onclick = ()=>handleAnswer(btn, opt, optsWrap, idx);
+    optsWrap.appendChild(btn);
+  });
+
+  const card = document.getElementById('question-card');
+  card.classList.remove('question-card');
+  void card.offsetWidth;
+  card.classList.add('question-card');
+}
+
+function handleAnswer(btn, opt, optsWrap, idx){
+  const buttons = optsWrap.querySelectorAll('.opt');
+  buttons.forEach(b=>b.disabled = true);
+  btn.classList.add('selected');
+
+  const reaction = document.getElementById('reaction');
+  reaction.textContent = opt.reactions[Math.floor(Math.random()*opt.reactions.length)];
+  reaction.classList.add('show');
+
+  const isLast = idx === QUESTIONS.length - 1;
+  setTimeout(()=>{
+    saveState({
+      stage:'wait',
+      qIndex: isLast ? QUESTIONS.length : idx + 1,
+      unlockAt: Date.now() + WAIT_MS,
+      isFinalWait: isLast
+    });
+    render();
+  }, 1100);
+}
+
+function msToHMS(ms){
+  if(ms < 0) ms = 0;
+  const totalSec = Math.floor(ms/1000);
+  const h = Math.floor(totalSec/3600);
+  const m = Math.floor((totalSec%3600)/60);
+  const sec = totalSec%60;
+  const pad = n => String(n).padStart(2,'0');
+  return pad(h)+':'+pad(m)+':'+pad(sec);
+}
+
+function renderWaitScreen(s){
+  buildProgress(s.qIndex, s.isFinalWait);
+  document.getElementById('wait-eyebrow').textContent = s.isFinalWait
+    ? 'Última sorpresa en camino'
+    : 'Pregunta ' + (s.qIndex+1) + ' de ' + QUESTIONS.length;
+  const remaining = s.unlockAt - Date.now();
+  document.getElementById('wait-time').textContent = msToHMS(remaining);
+}
+
+function tickWait(manual){
+  const s = loadState();
+  if(s.stage !== 'wait') return;
+  const remaining = s.unlockAt - Date.now();
+  if(remaining <= 0){
+    if(s.isFinalWait){
+      saveState({ stage:'finalmessage' });
+    } else {
+      saveState({ stage:'question', qIndex: s.qIndex });
+    }
+    render();
+  } else {
+    document.getElementById('wait-time').textContent = msToHMS(remaining);
+    if(manual){
+      const ring = document.querySelector('.wait-ring');
+      ring.style.transition = 'transform .15s ease';
+      ring.style.transform = 'scale(1.04)';
+      setTimeout(()=>{ ring.style.transform = 'scale(1)'; }, 150);
+    }
+  }
+}
+
+function goReveal(){
+  saveState({ stage:'reveal' });
+  render();
+  spawnConfetti();
+}
+
+function spawnConfetti(){
+  const colors = ['#E2603F','#D9A441','#1E8FA6','#F3E7D1'];
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const count = reduced ? 0 : 50;
+  for(let i=0;i<count;i++){
+    const el = document.createElement('div');
+    el.className = 'confetto';
+    el.style.left = Math.random()*100+'vw';
+    el.style.background = colors[Math.floor(Math.random()*colors.length)];
+    el.style.setProperty('--rot', (Math.random()*540)+'deg');
+    el.style.animationDuration = (2.6 + Math.random()*1.8)+'s';
+    el.style.animationDelay = (Math.random()*0.6)+'s';
+    document.body.appendChild(el);
+    setTimeout(()=>el.remove(), 5200);
+  }
+}
+
+function confirmReset(){
+  if(confirm('¿Reiniciar el juego desde el principio? Esto borra el progreso guardado.')){
+    try{ localStorage.removeItem(STORAGE_KEY); }catch(e){}
+    render();
+  }
+}
+
+if(new URLSearchParams(location.search).get('reset') === '1'){
+  try{ localStorage.removeItem(STORAGE_KEY); }catch(e){}
+}
+
+document.addEventListener('visibilitychange', ()=>{
+  if(!document.hidden) tickWait(false);
+});
+window.addEventListener('focus', ()=>tickWait(false));
+window.addEventListener('pageshow', ()=>render());
+
+render();
+</script>
+</body>
+</html>
